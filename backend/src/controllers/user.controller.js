@@ -3,6 +3,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Book from '../models/book.model.js';
 
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,  // Ensure this works locally in dev
+  sameSite: 'none',  // Required for cross-site cookies
+  path: '/',  // Cookie available across the whole site
+  maxAge: 24 * 60 * 60 * 1000,  //
+};
 
 // Generate Access and Refresh Tokens
 const generateAccessandRefreshToken = async (userId) => {
@@ -73,8 +80,8 @@ export const registerUser = async (req, res) => {
 
     res
       .status(201)
-      .cookie('accessToken', accessToken, { httpOnly: true, secure: true })
-      .cookie('refreshToken', refreshToken, { httpOnly: true, secure: true })
+      .cookie('accessToken', accessToken,  cookieOptions)
+      .cookie('refreshToken', refreshToken,  cookieOptions)
       .json({
         message: 'User registered successfully.',
         user: { _id : user._id, username, fullName, email },
@@ -112,8 +119,8 @@ export const loginUser = async (req, res) => {
 
     res
       .status(200)
-      .cookie('accessToken', accessToken, { httpOnly: true, secure: true })
-      .cookie('refreshToken', refreshToken, { httpOnly: true, secure: true })
+      .cookie('accessToken', accessToken, cookieOptions)
+      .cookie('refreshToken', refreshToken, cookieOptions)
       .json({
         message: 'Login successful.',
         user: {
@@ -148,8 +155,8 @@ export const getUserProfile = async (req, res) => {
 export const logoutUser = async (req, res) => {
   try {
     res
-      .clearCookie('accessToken', { httpOnly: true, secure: true })
-      .clearCookie('refreshToken', { httpOnly: true, secure: true })
+      .clearCookie('accessToken', cookieOptions)
+      .clearCookie('refreshToken', cookieOptions)
       .status(200)
       .json({ message: 'Logout successful.' });
   } catch (error) {
