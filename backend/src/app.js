@@ -13,19 +13,11 @@ const app = express();
 
 // ORIGIN FROM WHERE WE ACCEPT OUR REQUEST
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
   "https://e-book-ten.vercel.app/"
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  allowedOrigins,
   credentials: true
 }));
 
