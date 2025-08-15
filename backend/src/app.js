@@ -13,7 +13,7 @@ const app = express();
 
 // ORIGIN FROM WHERE WE ACCEPT OUR REQUEST
 const allowedOrigins = [
-  "https://e-book-7wrk.vercel.app/"
+  "https://e-book-7wrk.vercel.app"
 ];
 
 app.use(cors({
