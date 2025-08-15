@@ -3,6 +3,8 @@
 import { createContext, useState, useContext, useEffect } from "react"
 import axios from "axios"
 
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
+
 const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
@@ -15,7 +17,7 @@ export const UserProvider = ({ children }) => {
 
   const checkUserLoggedIn = async () => { 
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/users/current-user", { withCredentials: true })
+      const response = await axios.get("/api/v1/users/current-user", { withCredentials: true })
       setUser(response.data)
     } catch (error) {
       console.error("Not logged in", error)
@@ -26,7 +28,7 @@ export const UserProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const response = await axios.post(
-      "http://localhost:8000/api/v1/users/login",
+      "/api/v1/users/login",
       { email, password },
       { withCredentials: true },
     )
@@ -35,7 +37,7 @@ export const UserProvider = ({ children }) => {
   }
 
   const register = async (userData) => {
-    const response = await axios.post("http://localhost:8000/api/v1/users/register", userData, {
+    const response = await axios.post("/api/v1/users/register", userData, {
       withCredentials: true,
     })
     setUser(response.data.user)
@@ -43,7 +45,7 @@ export const UserProvider = ({ children }) => {
   }
 
   const logout = async () => {
-    await axios.post("http://localhost:8000/api/v1/users/logout", {}, { withCredentials: true })
+    await axios.post("/api/v1/users/logout", {}, { withCredentials: true })
     setUser(null)
   }
 

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
+
 const BookDetail = () => {
   const { id } = useParams(); // Get the book ID from the URL
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const BookDetail = () => {
   const fetchBookDetails = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:8000/api/v1/books/${id}`, {
+      const res = await axios.get(`/api/v1/books/${id}`, {
         withCredentials: true,
       });
       setBook(res.data);
@@ -35,7 +37,7 @@ const BookDetail = () => {
   // Fetch user details
   const fetchUserDetails = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/v1/users/${userId}`, {
+      const res = await axios.get(`/api/v1/users/${userId}`, {
         withCredentials: true,
       });
       setUser(res.data);
@@ -51,7 +53,7 @@ const BookDetail = () => {
   const makePublic = async () => {
     try {
       await axios.post(
-        'http://localhost:8000/api/v1/books/makepublic',
+        '/api/v1/books/makepublic',
         { bookId: id },
         { withCredentials: true }
       );

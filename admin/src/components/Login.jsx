@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:8000/api/v1/users/admin', {
+      const res = await axios.post('/api/v1/users/admin', {
         email,
         password,
       }, { withCredentials: true });

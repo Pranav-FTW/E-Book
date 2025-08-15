@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react"
 import axios from "axios"
 import { toast } from "react-toastify"
 
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 const BookContext = createContext()
 
 export const useBookContext = () => useContext(BookContext)
@@ -19,7 +20,7 @@ export const BookProvider = ({ children }) => {
   const fetchBooks = async () => {
     setLoading(true)
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/books/")
+      const response = await axios.get("/api/v1/books/")
       setBooks(response.data)
       setError(null)
     } catch (err) {
@@ -34,7 +35,7 @@ export const BookProvider = ({ children }) => {
   const fetchBookById = async (id) => {
     setLoading(true)
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/books/${id}`)
+      const response = await axios.get(`/api/v1/books/${id}`)
       setCurrentBook(response.data)
       setError(null)
       return response.data
@@ -51,7 +52,7 @@ export const BookProvider = ({ children }) => {
   const createBook = async (bookData) => {
     setLoading(true)
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/books/", bookData, {
+      const response = await axios.post("/api/v1/books/", bookData, {
         withCredentials: true,
       })
       setBooks([...books, response.data.book])
@@ -71,7 +72,7 @@ export const BookProvider = ({ children }) => {
   const updateBook = async (id, bookData) => {
     setLoading(true)
     try {
-      const response = await axios.put(`http://localhost:8000/api/v1/books/${id}`, bookData, {
+      const response = await axios.put(`/api/v1/books/${id}`, bookData, {
         withCredentials: true,
       })
       setBooks(books.map((book) => (book._id === id ? response.data.book : book)))
@@ -91,7 +92,7 @@ export const BookProvider = ({ children }) => {
   const deleteBook = async (id) => {
     setLoading(true)
     try {
-      await axios.delete(`http://localhost:8000/api/v1/books/${id}`, {
+      await axios.delete(`/api/v1/books/${id}`, {
         withCredentials: true,
       })
       setBooks(books.filter((book) => book._id !== id))
@@ -110,7 +111,7 @@ export const BookProvider = ({ children }) => {
   const userBooks = async () => {
     setLoading(true)
     try {
-      const res = await axios.get(`http://localhost:8000/api/v1/users/book`, {
+      const res = await axios.get(`/api/v1/users/book`, {
         withCredentials: true,
       })
       console.log(res.data);

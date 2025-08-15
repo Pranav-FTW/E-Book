@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 const BooksList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ const BooksList = () => {
   const fetchBooks = async () => {
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:8000/api/v1/books/getbooks', {}, {
+      const res = await axios.post('/api/v1/books/getbooks', {}, {
         withCredentials: true,
       });
       setBooks(res.data);
@@ -26,7 +27,7 @@ const BooksList = () => {
   const makePublic = async (bookId) => {
     try {
       await axios.post(
-        'http://localhost:8000/api/v1/books/makepublic',
+        '/api/v1/books/makepublic',
         { bookId },
         { withCredentials: true }
       );
