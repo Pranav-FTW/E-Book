@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 //routes
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello world' });
+  res.send('Hello world');
 });
 
 import userRouter from './routes/user.route.js';
@@ -40,7 +40,6 @@ import bookRouter from './routes/book.route.js'
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/books', bookRouter);
-
 
 
 export { app };
